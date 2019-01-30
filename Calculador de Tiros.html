@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+  <title>C&aacute;lculo de Tiros por Tanque HPA</title>
+  <script>
+    var divs = new Array();
+    divs[0] = "errvolume";
+    divs[1] = "errpsitank";
+    divs[2] = "errpsiregulator";
+    
+        function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+    
+    function validate()
+	{
+      var inputs = new Array();
+      inputs[0] = document.getElementById('volume').value;
+      inputs[1] = document.getElementById('psitank').value;
+      inputs[2] = document.getElementById('psiregulator').value;
+      
+      var errors = new Array();
+      errors[0] = "<span style='color:red'>: introduza a capacidade do tanque (p.c.)</span>";
+      errors[1] = "<span style='color:red'>: introduza a  press&atilde;o do tanque (PSI)</span>";
+      errors[2] = "<span style='color:red'>: introduza a  press&atilde;o de sa&iacute;da do regulador (PSI)</span>";
+            
+      for (i in inputs)
+      {
+        var errMessage = errors[i];
+        var div = divs[i];
+   	    if ((isNaN(inputs[i])) || (inputs[i] == ""))
+   	    {
+        	document.getElementById(div).innerHTML = errMessage;
+            document.getElementById('totalshots').value = "";
+            document.getElementById("msgFinal").innerHTML = "";
+        }
+		else
+        	document.getElementById(div).innerHTML = ": ok";
+       }
+     }
+        
+    function doMath()
+    {
+        var my_input1 = document.getElementById('volume').value;
+        var my_input2 = document.getElementById('psitank').value;
+        var my_input3 = document.getElementById('psiregulator').value;   
+        var my_input4 = document.getElementById('totalshots').value;   
+
+        var tot = parseInt(my_input1) * parseInt(my_input2) / parseInt(my_input3);
+        var tot1 = parseFloat(tot).toFixed(2);
+
+        if (tot > 0)
+        {
+        document.getElementById('totalshots').value = tot1;
+        document.getElementById("msgFinal").innerHTML = ": tiros antes de se acabar o ar do tanque.";
+        }
+
+        
+    }
+    
+    function doCClean()
+    {
+	    document.getElementById("volume").value = "";
+	    document.getElementById("psitank").value = "";
+	    document.getElementById("psiregulator").value = "";
+	    document.getElementById("totalshots").value = "";
+	    document.getElementById("errvolume").innerHTML = "";
+	    document.getElementById("errpsitank").innerHTML = "";
+	    document.getElementById("errpsiregulator").innerHTML = "";
+	    document.getElementById("msgFinal").innerHTML = "";
+    }
+    
+    function setTwoNumberDecimal(event) 
+    {
+    this.value = parseFloat(this.value).toFixed(2);
+	}
+        
+   </script>
+</head>
+<body>
+	<table style="width:750px;" id="table1">
+	  <tr>
+      	<td colspan="4"><div id="empty0"><h2>Airsoft - R&eacute;plicas HPA</h2></ BR><B>Calcula o N&uacute;mero de Tiros por Carga de Tanque HPA</B></ BR></div></td>
+      </tr>
+
+      <tr>
+      	<td colspan="4"><div id="empty2">&nbsp;</div></td>
+      </tr>
+      
+      <tr>
+        <td style="width:200px;">Capacidade do tanque (p.c.):</td>
+        <td style="width:150px;"><input type="text" style="text-align:right;" id="volume" onkeypress="return isNumberKey(event)" onkeyup="validate();doMath();" /></td>
+        <td style="width:20px;"><div id="empty3"></div></td><td><div id="errvolume"></div></td>
+      </tr>
+      
+      <tr>
+        <td>Press&atilde;o do tanque (PSI):</td>
+        <td><input type="text" style="text-align:right;" id="psitank" onkeypress="return isNumberKey(event)" onkeyup="validate();doMath();"/></td>
+        <td><div id="empty4"></div></td><td><div id="errpsitank"></div></td>
+      </tr>
+      
+      <tr>
+        <td>Press&atilde;o do regulador (PSI):</td>
+        <td><input type="text" style="text-align:right;" id="psiregulator" onkeypress="return isNumberKey(event)" onkeyup="validate();doMath();"/></td>
+        <td><div id="empty5"></div></td><td><div id="errpsiregulator"></div></td>
+      </tr>
+      
+      <tr>
+        <td>N&uacute;mero de tiros:</td>
+        <td><input readonly type="text" style="text-align:right;" id="totalshots"></td>
+        <td><div id="empty6"></div><td><div id="msgFinal"></div></td>
+      </tr>
+      
+      <tr>
+      	<td colspan="4"><div id="empty7"></div></td>
+      </tr>
+      <tr>
+      	<td colspan="4"><div id="empty8"></div></td>
+      </tr>
+      <tr>
+       <!-- <td colspan="4"><input type="button" id="calculate" value="Calcular" onclick="validate();doMath();"/>
+        <input type="button" id="clean" value="Limpar" onclick="doCClean();"/></td>-->
+       <td colspan="4">
+        <input type="button" id="clean" value="Limpar" onclick="doCClean();"/></td>
+      </tr>
+      
+	</table>
+</body>
+</html>
